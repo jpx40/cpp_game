@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(tetris-cpp CXX)
+project(cpp_game CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -22,25 +22,25 @@ function(add_git_dependency libName gitURL gitTag)
   target_compile_options(${libName} PRIVATE "-w")
 endfunction()
 
-FetchContent_Declare(
-  LDtkLoader
-  GIT_REPOSITORY https://github.com/Madour/LDtkLoader.git
-  GIT_TAG 1.5.3.1
-  GIT_SHALLOW TRUE
-  GIT_PROGRESS TRUE)
-FetchContent_MakeAvailable(LDtkLoader)
-target_compile_options(LDtkLoader PRIVATE "-w")
+# FetchContent_Declare(
+#   LDtkLoader
+#   GIT_REPOSITORY https://github.com/Madour/LDtkLoader.git
+#   GIT_TAG 1.5.3.1
+#   GIT_SHALLOW TRUE
+#   GIT_PROGRESS TRUE)
+# FetchContent_MakeAvailable(LDtkLoader)
+# target_compile_options(LDtkLoader PRIVATE "-w")
 
-FetchContent_Declare(
-  matchit
-  GIT_REPOSITORY https://github.com/BowenFu/matchit.cpp.git
-  GIT_TAG main)
+# FetchContent_Declare(
+#   matchit
+#   GIT_REPOSITORY https://github.com/BowenFu/matchit.cpp.git
+#   GIT_TAG main)
 
-FetchContent_GetProperties(matchit)
-if(NOT matchit_POPULATED)
-  FetchContent_Populate(matchit)
-  add_subdirectory(${matchit_SOURCE_DIR} ${matchit_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
+# FetchContent_GetProperties(matchit)
+# if(NOT matchit_POPULATED)
+#   FetchContent_Populate(matchit)
+#   add_subdirectory(${matchit_SOURCE_DIR} ${matchit_BINARY_DIR} EXCLUDE_FROM_ALL)
+# endif()
 
 # Add Raylib
 set(BUILD_EXAMPLES
@@ -49,7 +49,7 @@ set(BUILD_EXAMPLES
 set(BUILD_GAMES
     OFF
     CACHE BOOL "" FORCE) # don't build the supplied example games
-add_git_dependency(raylib https://github.com/raysan5/raylib.git 5.0)
+add_git_dependency(raylib https://github.com/raysan5/raylib.git 5.5)
 
 # add_git_dependency(raygui https://github.com/raysan5/raygui 4.0)
 
@@ -64,7 +64,7 @@ set(BOX2D_BUILD_UNIT_TESTS
 set(BOX2D_BUILD_TESTBED
     OFF
     CACHE BOOL "" FORCE)
-add_git_dependency(box2d https://github.com/erincatto/box2d.git v2.4.1)
+# add_git_dependency(box2d https://github.com/erincatto/box2d.git v2.4.1)
 
 # Add {fmt} library
 add_git_dependency(fmt https://github.com/fmtlib/fmt.git 10.2.1)
@@ -76,7 +76,7 @@ add_git_dependency(fmt https://github.com/fmtlib/fmt.git 10.2.1)
 
 # Adding our source files Define PROJECT_SOURCES as a list of all source files
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
-     "${CMAKE_CURRENT_LIST_DIR}/src*.cpp")
+     "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
 
 # Define PROJECT_INCLUDE to be the path to the include directory of the project
 set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/src/")
@@ -88,10 +88,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 # target_link_libraries(${PROJECT_NAME} PRIVATE raylib-cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE matchit)
-# target_link_libraries(${PROJECT_NAME} PRIVATE raygui)
-target_link_libraries(${PROJECT_NAME} PRIVATE LDtkLoader::LDtkLoader)
-target_link_libraries(${PROJECT_NAME} PRIVATE box2d)
+# target_link_libraries(${PROJECT_NAME} PRIVATE matchit)
+# # target_link_libraries(${PROJECT_NAME} PRIVATE raygui)
+# target_link_libraries(${PROJECT_NAME} PRIVATE LDtkLoader::LDtkLoader)
+# target_link_libraries(${PROJECT_NAME} PRIVATE box2d)
 target_link_libraries(${PROJECT_NAME} PRIVATE fmt)
 
 # # # # # # # # # # # # # # # # # # # # #
